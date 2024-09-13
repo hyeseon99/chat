@@ -42,33 +42,48 @@ st.set_page_config(page_title="병원 상담 챗봇", layout="wide")
 
 # 배경 이미지 스타일
 st.markdown(
-    f"""
+    """
     <style>
-    .main {{
+    .main {
         background-image: url("https://raw.githubusercontent.com/hyeseon99/chat/main/hohoho.jpg");
         background-size: cover;
         background-position: center;
         height: 100vh;
-    }}
-    .chat-box {{
+    }
+    .chat-box {
         position: fixed;
         bottom: 20px;
         right: 20px;
-        width: 300px;
+        width: 350px;
         padding: 20px;
         background-color: #f9f9f9;
         border-radius: 10px;
         box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
         z-index: 1000;
-    }}
-    .chat-header {{
+    }
+    .chat-header {
         background-color: #1a73e8;
         color: white;
         padding: 10px;
         border-radius: 10px 10px 0 0;
         text-align: center;
         font-weight: bold;
-    }}
+    }
+    .chat-footer {
+        background-color: #f1f1f1;
+        padding: 10px;
+        border-radius: 0 0 10px 10px;
+        text-align: center;
+    }
+    .send-btn {
+        margin-top: 10px;
+        width: 100%;
+        padding: 10px;
+        background-color: #34a853;
+        color: white;
+        border: none;
+        border-radius: 5px;
+    }
     </style>
     """, unsafe_allow_html=True
 )
@@ -76,13 +91,14 @@ st.markdown(
 # 배경 화면 설정
 st.markdown('<div class="main">', unsafe_allow_html=True)
 
-# 챗봇 UI 표시 (오른쪽 하단)
+# 오른쪽 하단에 고정된 챗봇 UI
 st.markdown("""
     <div class="chat-box">
         <div class="chat-header">병원 상담 챗봇</div>
-        <p>안녕하세요! 무엇을 도와드릴까요?</p>
-        <input type="text" id="chatInput" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
-        <button class="send-btn" style="margin-top: 10px; width: 100%; padding: 10px; background-color: #34a853; color: white; border: none; border-radius: 5px;" onclick="send_message()">전송</button>
+        <div class="chat-footer">
+            <input type="text" id="chatInput" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;" placeholder="질문을 입력하세요">
+            <button class="send-btn" onclick="send_message()">전송</button>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
