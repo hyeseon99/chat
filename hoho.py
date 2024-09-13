@@ -41,9 +41,6 @@ def preprocess_question(question):
 if 'messages' not in st.session_state:
     st.session_state.messages = []
 
-if 'enter_pressed' not in st.session_state:
-    st.session_state.enter_pressed = False
-
 # 스타일링 (오른쪽 하단에 고정된 챗봇 박스)
 st.markdown("""
     <style>
@@ -51,11 +48,12 @@ st.markdown("""
         position: fixed;
         bottom: 20px;
         right: 20px;
-        width: 300px;
+        width: 350px;
         padding: 20px;
         background-color: #f9f9f9;
         border-radius: 10px;
         box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
     }
     .chat-header {
         background-color: #1a73e8;
@@ -63,6 +61,7 @@ st.markdown("""
         padding: 10px;
         border-radius: 10px 10px 0 0;
         text-align: center;
+        font-weight: bold;
     }
     .chat-footer {
         background-color: #f1f1f1;
@@ -78,6 +77,7 @@ st.markdown("""
         color: white;
         border: none;
         border-radius: 5px;
+        cursor: pointer;
     }
     </style>
     """, unsafe_allow_html=True)
