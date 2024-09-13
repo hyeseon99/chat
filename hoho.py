@@ -41,6 +41,9 @@ def preprocess_question(question):
 if 'messages' not in st.session_state:
     st.session_state.messages = []
 
+if 'enter_pressed' not in st.session_state:
+    st.session_state.enter_pressed = False
+
 # 스타일링 (오른쪽 하단에 고정된 챗봇 박스)
 st.markdown("""
     <style>
@@ -79,6 +82,30 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
+# 전송 함수
+def send_message():
+    user_question = st.session_state.input_text
+    user_question = preprocess_question(user_question)
+    if user_question:
+        st.session_state.messages.append(f"사용자: {user_question}")
+
+        # 키워드 기반 매칭
+        if "진료" in user_question and "시간" in user_question:
+            response = hospital_questions['진료 시간']
+        elif "응급실" in user_question and "위치" in user_question:
+            response = hospital_questions['응급실 위치']
+        elif "의사" in user_question and "정보" in user_question:
+            response = hospital_questions['의사 정보']
+        elif "예약" in user_question:
+            response = hospital_questions['예약 방법']
+        else:
+            # API 호출로 응답 가져오기
+            result = get_response(user_question)
+            response = result.get('return_object', {}).get('answer', '관련 정보를 찾을 수 없습니다.')
+
+        st.session_state.messages.append(f"챗봇: {response}")
+    st.session_state.input_text = ""  # 입력 필드 초기화
+
 # 사용자 입력 받기
 with st.container():
     st.markdown('<div class="chat-box">', unsafe_allow_html=True)
@@ -89,30 +116,6 @@ with st.container():
         st.write(message)
 
     # 사용자 입력창 (엔터키로 전송)
-    user_question = st.text_input("질문을 입력하세요", key="input_text", on_change=lambda: st.session_state["enter_pressed"] = True)
-    
-    if st.session_state.get("enter_pressed", False) or st.button("전송"):
-        user_question = preprocess_question(user_question)
-        if user_question:
-            st.session_state.messages.append(f"사용자: {user_question}")
-
-            # 키워드 기반 매칭
-            if "진료" in user_question and "시간" in user_question:
-                response = hospital_questions['진료 시간']
-            elif "응급실" in user_question and "위치" in user_question:
-                response = hospital_questions['응급실 위치']
-            elif "의사" in user_question and "정보" in user_question:
-                response = hospital_questions['의사 정보']
-            elif "예약" in user_question:
-                response = hospital_questions['예약 방법']
-            else:
-                # API 호출로 응답 가져오기
-                result = get_response(user_question)
-                response = result.get('return_object', {}).get('answer', '관련 정보를 찾을 수 없습니다.')
-            
-            st.session_state.messages.append(f"챗봇: {response}")
-
-        # 엔터키를 눌렀을 때 상태 초기화
-        st.session_state["enter_pressed"] = False
+    user_question = st.text_input("질문을 입력하세요", key="input_text", on_change=send_message)
 
     st.markdown('</div>', unsafe_allow_html=True)
