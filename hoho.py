@@ -88,10 +88,10 @@ with st.container():
     for message in st.session_state.messages:
         st.write(message)
 
-    # 사용자 입력창
-    user_question = st.text_input("질문을 입력하세요", key="input_text")
+    # 사용자 입력창 (엔터키로 전송)
+    user_question = st.text_input("질문을 입력하세요", key="input_text", on_change=lambda: st.session_state["enter_pressed"] = True)
     
-    if st.button("전송"):
+    if st.session_state.get("enter_pressed", False) or st.button("전송"):
         user_question = preprocess_question(user_question)
         if user_question:
             st.session_state.messages.append(f"사용자: {user_question}")
@@ -111,5 +111,8 @@ with st.container():
                 response = result.get('return_object', {}).get('answer', '관련 정보를 찾을 수 없습니다.')
             
             st.session_state.messages.append(f"챗봇: {response}")
+
+        # 엔터키를 눌렀을 때 상태 초기화
+        st.session_state["enter_pressed"] = False
 
     st.markdown('</div>', unsafe_allow_html=True)
