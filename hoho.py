@@ -37,8 +37,9 @@ def get_response(question):
 def preprocess_question(question):
     return question.replace(" ", "").strip().lower()
 
-# Streamlit 레이아웃 구성
-st.title("병원 상담 챗봇")
+# Streamlit 세션 상태로 대화 내용 저장
+if 'messages' not in st.session_state:
+    st.session_state.messages = []
 
 # 스타일링 (오른쪽 하단에 고정된 챗봇 박스)
 st.markdown("""
@@ -66,39 +67,49 @@ st.markdown("""
         border-radius: 0 0 10px 10px;
         text-align: center;
     }
+    .send-btn {
+        margin-top: 10px;
+        width: 100%;
+        padding: 10px;
+        background-color: #34a853;
+        color: white;
+        border: none;
+        border-radius: 5px;
+    }
     </style>
-    <div class="chat-box">
-        <div class="chat-header">병원 상담 챗봇</div>
-        <div class="chat-content">
-            <p>안녕하세요! 무엇을 도와드릴까요?</p>
-        </div>
-        <div class="chat-footer">
-            <input type="text" id="chatInput" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
-            <button class="send-btn" style="margin-top: 10px; width: 100%; padding: 10px; background-color: #34a853; color: white; border: none; border-radius: 5px;">전송</button>
-        </div>
-    </div>
     """, unsafe_allow_html=True)
 
-# 사용자 입력과 챗봇 응답 처리
-user_question = st.text_input("질문을 입력하세요:")
+# 사용자 입력 받기
+with st.container():
+    st.markdown('<div class="chat-box">', unsafe_allow_html=True)
+    st.markdown('<div class="chat-header">병원 상담 챗봇</div>', unsafe_allow_html=True)
 
-if st.button("전송", key="send_button"):
-    user_question = preprocess_question(user_question)
+    # 대화 출력
+    for message in st.session_state.messages:
+        st.write(message)
+
+    # 사용자 입력창
+    user_question = st.text_input("질문을 입력하세요", key="input_text")
     
-    if user_question:
-        st.write(f"사용자: {user_question}")
-        
-        # 키워드 기반 매칭
-        if "진료" in user_question and "시간" in user_question:
-            st.write(f"챗봇: {hospital_questions['진료 시간']}")
-        elif "응급실" in user_question and "위치" in user_question:
-            st.write(f"챗봇: {hospital_questions['응급실 위치']}")
-        elif "의사" in user_question and "정보" in user_question:
-            st.write(f"챗봇: {hospital_questions['의사 정보']}")
-        elif "예약" in user_question:
-            st.write(f"챗봇: {hospital_questions['예약 방법']}")
-        else:
-            # API 호출로 응답 가져오기
-            result = get_response(user_question)
-            answer = result.get('return_object', {}).get('answer', '관련 정보를 찾을 수 없습니다.')
-            st.write(f"챗봇: {answer}")
+    if st.button("전송"):
+        user_question = preprocess_question(user_question)
+        if user_question:
+            st.session_state.messages.append(f"사용자: {user_question}")
+
+            # 키워드 기반 매칭
+            if "진료" in user_question and "시간" in user_question:
+                response = hospital_questions['진료 시간']
+            elif "응급실" in user_question and "위치" in user_question:
+                response = hospital_questions['응급실 위치']
+            elif "의사" in user_question and "정보" in user_question:
+                response = hospital_questions['의사 정보']
+            elif "예약" in user_question:
+                response = hospital_questions['예약 방법']
+            else:
+                # API 호출로 응답 가져오기
+                result = get_response(user_question)
+                response = result.get('return_object', {}).get('answer', '관련 정보를 찾을 수 없습니다.')
+            
+            st.session_state.messages.append(f"챗봇: {response}")
+
+    st.markdown('</div>', unsafe_allow_html=True)
