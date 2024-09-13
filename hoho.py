@@ -2,47 +2,6 @@ import streamlit as st
 import urllib3
 import json
 
-# 스타일 설정 (버튼 및 박스 스타일)
-st.markdown("""
-    <style>
-    .chat-box {
-        background-color: #f0f0f5;
-        padding: 10px;
-        border-radius: 10px;
-        margin-bottom: 10px;
-    }
-    .user-message {
-        background-color: #1a73e8;
-        color: white;
-        padding: 10px;
-        border-radius: 10px;
-        text-align: left;
-        margin-bottom: 10px;
-    }
-    .bot-message {
-        background-color: #34a853;
-        color: white;
-        padding: 10px;
-        border-radius: 10px;
-        text-align: left;
-        margin-bottom: 10px;
-    }
-    .button-style {
-        background-color: #6c63ff;
-        border: none;
-        color: white;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        border-radius: 12px;
-        cursor: pointer;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
 # ETRI API 설정
 openApiURL = "http://aiopen.etri.re.kr:8000/WiseQAnal"
 accessKey = "074c136c-f5d7-4063-811b-9cf8b8060803"  # 본인의 API 키로 변경하세요.
@@ -78,35 +37,68 @@ def get_response(question):
 def preprocess_question(question):
     return question.replace(" ", "").strip().lower()
 
-# Streamlit UI 구성
+# Streamlit 레이아웃 구성
 st.title("병원 상담 챗봇")
-st.write("ETRI WiseQAnal API를 사용한 병원 관련 질문 분석")
 
-# 채팅 UI
-st.markdown('<div class="chat-box">', unsafe_allow_html=True)
+# 스타일링 (오른쪽 하단에 고정된 챗봇 박스)
+st.markdown("""
+    <style>
+    .chat-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 300px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    }
+    .chat-header {
+        background-color: #1a73e8;
+        color: white;
+        padding: 10px;
+        border-radius: 10px 10px 0 0;
+        text-align: center;
+    }
+    .chat-footer {
+        background-color: #f1f1f1;
+        padding: 10px;
+        border-radius: 0 0 10px 10px;
+        text-align: center;
+    }
+    </style>
+    <div class="chat-box">
+        <div class="chat-header">병원 상담 챗봇</div>
+        <div class="chat-content">
+            <p>안녕하세요! 무엇을 도와드릴까요?</p>
+        </div>
+        <div class="chat-footer">
+            <input type="text" id="chatInput" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+            <button class="send-btn" style="margin-top: 10px; width: 100%; padding: 10px; background-color: #34a853; color: white; border: none; border-radius: 5px;">전송</button>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
-# 사용자 입력
+# 사용자 입력과 챗봇 응답 처리
 user_question = st.text_input("질문을 입력하세요:")
 
 if st.button("전송", key="send_button"):
     user_question = preprocess_question(user_question)
     
     if user_question:
-        st.markdown(f'<div class="user-message">사용자: {user_question}</div>', unsafe_allow_html=True)
+        st.write(f"사용자: {user_question}")
         
         # 키워드 기반 매칭
         if "진료" in user_question and "시간" in user_question:
-            st.markdown(f'<div class="bot-message">챗봇: {hospital_questions["진료 시간"]}</div>', unsafe_allow_html=True)
+            st.write(f"챗봇: {hospital_questions['진료 시간']}")
         elif "응급실" in user_question and "위치" in user_question:
-            st.markdown(f'<div class="bot-message">챗봇: {hospital_questions["응급실 위치"]}</div>', unsafe_allow_html=True)
+            st.write(f"챗봇: {hospital_questions['응급실 위치']}")
         elif "의사" in user_question and "정보" in user_question:
-            st.markdown(f'<div class="bot-message">챗봇: {hospital_questions["의사 정보"]}</div>', unsafe_allow_html=True)
+            st.write(f"챗봇: {hospital_questions['의사 정보']}")
         elif "예약" in user_question:
-            st.markdown(f'<div class="bot-message">챗봇: {hospital_questions["예약 방법"]}</div>', unsafe_allow_html=True)
+            st.write(f"챗봇: {hospital_questions['예약 방법']}")
         else:
             # API 호출로 응답 가져오기
             result = get_response(user_question)
             answer = result.get('return_object', {}).get('answer', '관련 정보를 찾을 수 없습니다.')
-            st.markdown(f'<div class="bot-message">챗봇: {answer}</div>', unsafe_allow_html=True)
-
-st.markdown('</div>', unsafe_allow_html=True)
+            st.write(f"챗봇: {answer}")
