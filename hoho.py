@@ -38,12 +38,19 @@ def preprocess_question(question):
     return question.replace(" ", "").strip().lower()
 
 # Streamlit 레이아웃 구성
-st.title("병원 상담 챗봇")
+st.set_page_config(page_title="병원 상담 챗봇", layout="wide")
 
-# 스타일링 (오른쪽 하단에 고정된 챗봇 박스)
-st.markdown("""
+# 배경 이미지 스타일
+st.markdown(
+    f"""
     <style>
-    .chat-box {
+    .main {{
+        background-image: url("https://raw.githubusercontent.com/hyeseon99/chat/main/hohoho.jpg");
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+    }}
+    .chat-box {{
         position: fixed;
         bottom: 20px;
         right: 20px;
@@ -53,23 +60,29 @@ st.markdown("""
         border-radius: 10px;
         box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
         z-index: 1000;
-    }
-    .chat-header {
+    }}
+    .chat-header {{
         background-color: #1a73e8;
         color: white;
         padding: 10px;
         border-radius: 10px 10px 0 0;
         text-align: center;
-    }
-    .chat-footer {
-        background-color: #f1f1f1;
-        padding: 10px;
-        border-radius: 0 0 10px 10px;
-        text-align: center;
-    }
+        font-weight: bold;
+    }}
     </style>
+    """, unsafe_allow_html=True
+)
+
+# 배경 화면 설정
+st.markdown('<div class="main">', unsafe_allow_html=True)
+
+# 챗봇 UI 표시 (오른쪽 하단)
+st.markdown("""
     <div class="chat-box">
         <div class="chat-header">병원 상담 챗봇</div>
+        <p>안녕하세요! 무엇을 도와드릴까요?</p>
+        <input type="text" id="chatInput" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+        <button class="send-btn" style="margin-top: 10px; width: 100%; padding: 10px; background-color: #34a853; color: white; border: none; border-radius: 5px;" onclick="send_message()">전송</button>
     </div>
     """, unsafe_allow_html=True)
 
@@ -96,3 +109,5 @@ if st.button("전송", key="send_button"):
             result = get_response(user_question)
             answer = result.get('return_object', {}).get('answer', '관련 정보를 찾을 수 없습니다.')
             st.write(f"챗봇: {answer}")
+
+st.markdown('</div>', unsafe_allow_html=True)
