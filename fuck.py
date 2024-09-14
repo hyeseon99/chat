@@ -15,25 +15,28 @@ st.markdown("""
     <style>
     .container {
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
         height: 100vh;
     }
+    .box {
+        margin: 0 20px;
+        text-align: center;
+    }
     img {
-        width: 300px;
-        height: 300px;
-        margin-bottom: 20px;
+        width: 250px;
+        height: 250px;
+        margin-bottom: 10px;
     }
     .button {
-        font-size: 24px;
+        font-size: 20px;
         font-weight: bold;
-        text-align: center;
-        margin: 10px;
         padding: 10px;
+        width: 150px;
+        margin: 10px auto;
+        text-align: center;
         border-radius: 10px;
         border: 2px solid #ddd;
-        width: 150px;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -44,17 +47,21 @@ if st.session_state.page == "main":
     
     st.markdown('<div class="container">', unsafe_allow_html=True)
     
-    # 음식점 이미지
+    # 음식점 이미지 및 버튼
+    st.markdown('<div class="box">', unsafe_allow_html=True)
     st.image("https://raw.githubusercontent.com/hyeseon99/chat/main/음식.PNG")
     if st.button("음식점"):
         go_to_restaurant()
     st.markdown('<div class="button">음식점</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
-    # 병원 이미지
+    # 병원 이미지 및 버튼
+    st.markdown('<div class="box">', unsafe_allow_html=True)
     st.image("https://raw.githubusercontent.com/hyeseon99/chat/main/병원.PNG")
     if st.button("병원"):
         go_to_hospital()
     st.markdown('<div class="button">병원</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown('</div>', unsafe_allow_html=True)
 
