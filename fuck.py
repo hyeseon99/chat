@@ -5,7 +5,7 @@ st.markdown("""
     <style>
     .container {
         display: flex;
-        justify-content: space-around;
+        justify-content: center;
         align-items: center;
         height: 80vh;
     }
@@ -39,6 +39,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
+# 메인 컨테이너 시작
 st.markdown('<div class="container">', unsafe_allow_html=True)
 
 # 음식점 부분
@@ -53,4 +54,5 @@ st.image("https://raw.githubusercontent.com/hyeseon99/chat/main/병원.PNG")  # 
 st.markdown('<div class="button">병원</div>', unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
+# 메인 컨테이너 끝
 st.markdown('</div>', unsafe_allow_html=True)
