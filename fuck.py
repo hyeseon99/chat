@@ -15,28 +15,32 @@ st.markdown("""
     <style>
     .container {
         display: flex;
-        justify-content: center;
-        align-items: center;
         height: 100vh;
     }
-    .box {
-        margin: 0 20px;
-        text-align: center;
+    .left {
+        background-color: #FDEADE;
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
-    img {
-        width: 250px;
-        height: 250px;
-        margin-bottom: 10px;
+    .right {
+        background-color: #D6EAF8;
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .button {
-        font-size: 20px;
+        font-size: 24px;
         font-weight: bold;
         padding: 10px;
-        width: 150px;
-        margin: 10px auto;
+        width: 200px;
+        margin: 10px;
         text-align: center;
         border-radius: 10px;
         border: 2px solid #ddd;
+        cursor: pointer;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -44,23 +48,19 @@ st.markdown("""
 # 페이지 상태에 따라 다른 화면 렌더링
 if st.session_state.page == "main":
     st.title("서비스 선택")
-    
+
     st.markdown('<div class="container">', unsafe_allow_html=True)
-    
-    # 음식점 이미지 및 버튼
-    st.markdown('<div class="box">', unsafe_allow_html=True)
-    st.image("https://raw.githubusercontent.com/hyeseon99/chat/main/음식.PNG")
-    if st.button("음식점"):
+
+    # 왼쪽 (음식점)
+    st.markdown('<div class="left">', unsafe_allow_html=True)
+    if st.button("음식점 선택"):
         go_to_restaurant()
-    st.markdown('<div class="button">음식점</div>', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # 병원 이미지 및 버튼
-    st.markdown('<div class="box">', unsafe_allow_html=True)
-    st.image("https://raw.githubusercontent.com/hyeseon99/chat/main/병원.PNG")
-    if st.button("병원"):
+    # 오른쪽 (병원)
+    st.markdown('<div class="right">', unsafe_allow_html=True)
+    if st.button("병원 선택"):
         go_to_hospital()
-    st.markdown('<div class="button">병원</div>', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown('</div>', unsafe_allow_html=True)
