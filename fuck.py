@@ -54,17 +54,3 @@ st.markdown('<div class="button">병원</div>', unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
-
-# 음식점 부분
-st.markdown('<div class="box restaurant">', unsafe_allow_html=True)
-st.image("https://raw.githubusercontent.com/hyeseon99/chat/main/음식.PNG")
-st.markdown('<div class="button">음식점</div>', unsafe_allow_html=True)
-st.markdown('</div>', unsafe_allow_html=True)
-
-# 병원 부분
-st.markdown('<div class="box hospital">', unsafe_allow_html=True)
-st.image("https://raw.githubusercontent.com/hyeseon99/chat/main/병원.PNG")
-st.markdown('<div class="button">병원</div>', unsafe_allow_html=True)
-st.markdown('</div>', unsafe_allow_html=True)
-
-st.markdown('</div>', unsafe_allow_html=True)
