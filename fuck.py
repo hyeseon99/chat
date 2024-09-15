@@ -1,4 +1,4 @@
-pip install streamlit-toggle-switch
+import streamlit-toggle-switch as sw
 import streamlit as st
 import streamlit_toggle as tog
 
