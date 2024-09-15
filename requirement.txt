@@ -1,5 +1,3 @@
 streamlit
 urllib3
 json
-streamlit-toggle-switch
-
