@@ -1,22 +1,22 @@
 import streamlit as st
-
-# CSS 적용: 성별 라디오 버튼을 가로로 배치
-st.markdown("""
-    <style>
-    div[role='radiogroup'] > label {
-        display: inline-flex;
-        align-items: center;
-        margin-right: 15px;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+import streamlit_toggle as tog
 
 # 상단 바
 st.title("세시를 '세먹자!'")
 st.caption("성별을 선택해 주세요:")
 
-# 성별 라디오 버튼 가로 배치
-gender = st.radio("성별:", ('여자', '남자'))
+# 토글 스위치로 성별 선택 구현
+gender_toggle = tog.st_toggle_switch(label="여자", 
+                                     key="gender_toggle", 
+                                     default_value=True,  # 기본값을 True로 설정 (여자 선택)
+                                     label_after=False, 
+                                     inactive_color='#D3D3D3', 
+                                     active_color="#11567f", 
+                                     track_color="#29B5E8")
+
+# 성별 값을 설정 (토글 값에 따라 여자 또는 남자)
+gender = "여자" if gender_toggle else "남자"
+st.write(f"선택된 성별: {gender}")
 
 st.caption("연령대를 선택해 주세요:")
 age_group = st.selectbox("연령대:", ['10대', '20대', '30대', '40대', '50대', '60대', '70대 이상'])
