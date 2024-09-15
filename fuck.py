@@ -3,10 +3,10 @@ import streamlit as st
 # CSS 적용: 성별 라디오 버튼을 가로로 배치
 st.markdown("""
     <style>
-    .horizontal-radio .stRadio {
-        display: flex;
-        flex-direction: row;
-        justify-content: start;
+    div[role='radiogroup'] > label {
+        display: inline-flex;
+        align-items: center;
+        margin-right: 15px;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -16,9 +16,7 @@ st.title("세시를 '세먹자!'")
 st.caption("성별을 선택해 주세요:")
 
 # 성별 라디오 버튼 가로 배치
-st.markdown('<div class="horizontal-radio">', unsafe_allow_html=True)
 gender = st.radio("성별:", ('여자', '남자'))
-st.markdown('</div>', unsafe_allow_html=True)
 
 st.caption("연령대를 선택해 주세요:")
 age_group = st.selectbox("연령대:", ['10대', '20대', '30대', '40대', '50대', '60대', '70대 이상'])
