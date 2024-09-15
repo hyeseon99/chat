@@ -1,3 +1,5 @@
+pip install streamlit-toggle-switch
+
 import streamlit as st
 import urllib3
 import json
