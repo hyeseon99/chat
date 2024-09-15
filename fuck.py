@@ -1,9 +1,10 @@
 import streamlit as st
 
 # 상단 바
-st.title("세상시를 '세먹자!'")
+st.title("세종시를 '세먹자!'")
 st.caption("성별을 선택해 주세요:")
 gender = st.radio("성별:", ('여자', '남자'))
+
 
 st.caption("연령대를 선택해 주세요:")
 age_group = st.selectbox("연령대:", ['10대', '20대', '30대', '40대','50대','60대','70대 이상'])
