@@ -1,16 +1,30 @@
 import streamlit as st
 
-# 상단 바
-st.title("세종시를 '세먹자!'")
-st.caption("성별을 선택해 주세요:")
-gender = st.radio("성별:", ('여자', '남자'))
+# CSS 적용: 성별 라디오 버튼을 가로로 배치
+st.markdown("""
+    <style>
+    .horizontal-radio .stRadio {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
+# 상단 바
+st.title("세시를 '세먹자!'")
+st.caption("성별을 선택해 주세요:")
+
+# 성별 라디오 버튼 가로 배치
+st.markdown('<div class="horizontal-radio">', unsafe_allow_html=True)
+gender = st.radio("성별:", ('여자', '남자'))
+st.markdown('</div>', unsafe_allow_html=True)
 
 st.caption("연령대를 선택해 주세요:")
-age_group = st.selectbox("연령대:", ['10대', '20대', '30대', '40대','50대','60대','70대 이상'])
+age_group = st.selectbox("연령대:", ['10대', '20대', '30대', '40대', '50대', '60대', '70대 이상'])
 
 st.caption("음식 카테고리를 골라주세요:")
-region = st.selectbox("음식 카테고리:", ['한식', '중식', '일식', '양식', '아시안', '분식', '카페','간식','제과점','주점업','패스트푸드','치킨전문점'])
+region = st.selectbox("음식 카테고리:", ['한식', '중식', '일식', '양식', '아시안', '분식', '카페', '간식', '제과점', '주점업', '패스트푸드', '치킨전문점'])
 
 # 메인 컨텐츠 영역
 st.header("가게 옵션")
